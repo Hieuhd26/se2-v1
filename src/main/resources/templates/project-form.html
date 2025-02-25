@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Project</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" href="https://inkythuatso.com/uploads/thumbnails/800/2021/12/logo-dai-hoc-ha-noi-inkythuatso-22-13-54-01.jpg" type="image/x-icon">
+    <script>
+        function searchStudent() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let students = document.getElementsByClassName("student-item");
+
+            for (let i = 0; i < students.length; i++) {
+                let name = students[i].getAttribute("data-name").toLowerCase();
+                let id = students[i].getAttribute("data-id").toLowerCase();
+
+                if (name.includes(input) || id.includes(input)) {
+                    students[i].style.display = "block";
+                } else {
+                    students[i].style.display = "none";
+                }
+            }
+        }
+        function showSuccessMessage() {
+            Swal.fire({
+                title: "Done!",
+                text: "Project added successfully.",
+                icon: "success",
+                confirmButtonText: "OK"
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <form th:action="@{/projects/add}" method="post" enctype="multipart/form-data" class="border p-4 rounded shadow"
+          onsubmit="return validateForm(event)">
+        <div class="mb-3">
+            <label for="name" class="form-label">Project Name:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="course" class="form-label">Course:</label>
+                <select id="course" name="course" class="form-select" required>
+                    <option value="SQA">SQA</option>
+                    <option value="SE2">SE2</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="year" class="form-label">Year:</label>
+                <input type="number" min="2000" max="2100" placeholder="YYYY" id="year" name="year" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="search" class="form-label">Student Search:</label>
+            <input type="text" id="search" class="form-control" onkeyup="searchStudent()"
+                   placeholder="Enter student name or id...">
+        </div>
+
+        <label class="form-label">Select Student:</label>
+        <div id="student-list" class="border rounded p-3 mb-3" style="max-height: 200px; overflow-y: auto;">
+            <div th:each="student : ${students}" class="student-item form-check"
+                 th:data-name="${student.firstName + ' ' + student.lastName}"
+                 th:data-id="${student.id}">
+                <input class="form-check-input" type="checkbox" name="studentIds" th:value="${student.id}">
+                <label class="form-check-label"
+                       th:text="${student.lastName + ' ' + student.firstName + ' (' + student.id + ')'}"></label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="images" class="form-label">Upload photo:</label>
+            <input type="file" id="images" name="images" class="form-control" multiple accept="image/png, image/jpeg">
+            <small class="text-muted">Only PNG and JPEG files are allowed.</small>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Create Project</button>
+    </form>
+
+    <div th:if="${success}" class="alert alert-success mt-3" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function validateForm(event) {
+        let isValid = true;
+        let errorMessage = "";
+        let studentsChecked = document.querySelectorAll('input[name="studentIds"]:checked');
+        if (studentsChecked.length === 0) {
+            errorMessage += "❌ Please select at least one student.<br>";
+            isValid = false;
+        }
+        let fileInput = document.getElementById("images");
+        if (fileInput.files.length === 0) {
+            errorMessage += "📸 Please upload at least one image.<br>";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Validation Error!",
+                html: errorMessage,
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        }
+    }
+    document.querySelector("form").addEventListener("submit", validateForm);
+</script>
+</body>
+</html>
