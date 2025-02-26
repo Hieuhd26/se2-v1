@@ -9,6 +9,7 @@ import com.alibaba.excel.EasyExcel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -22,7 +23,7 @@ public class StudentExcelService {
     private StudentRepository studentRepository;
     @Autowired
     private ReadStudentListener readStudentListener;
-
+    @Transactional
     public List<Student> readExcelFile(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
             EasyExcel.read(inputStream, StudentExcel.class, readStudentListener).sheet().doRead();

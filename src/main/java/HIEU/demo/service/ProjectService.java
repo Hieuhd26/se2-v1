@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class ProjectService {
     @Autowired
     private ImageService imageService;
 
+    @Transactional
     public ProjectResponse createProject(String name, String year, String course, List<String> studentIds, List<MultipartFile> images) throws IOException {
         Project project = Project.builder()
                 .name(name)
@@ -94,15 +96,12 @@ public class ProjectService {
                 .build();
     }
 
-
+    @Transactional
     public void deleteProject(Long id) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new AppException("Project not found"));
-
-        // Xóa ảnh trước khi xóa Project
         imageService.deleteImagesByProject(project);
-
-        // Xóa Project nhưng giữ nguyên Student
+        // giu student
         for (Student student : project.getStudents()) {
             student.getProjectList().remove(project);
         }

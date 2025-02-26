@@ -6,6 +6,7 @@ import HIEU.demo.model.Project;
 import HIEU.demo.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -25,6 +26,7 @@ public class ImageService {
 
     private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
 
+    @Transactional
     public List<Image> saveImages(List<MultipartFile> images, Project project) throws IOException {
         List<Image> imageList = new ArrayList<>();
         File uploadDir = new File(UPLOAD_DIR);
@@ -43,7 +45,7 @@ public class ImageService {
         }
         return imageRepository.saveAll(imageList);
     }
-
+    @Transactional
     public void deleteImagesByProject(Project project) {
         List<Image> images = imageRepository.findByProject(project);
         for (Image image : images) {
