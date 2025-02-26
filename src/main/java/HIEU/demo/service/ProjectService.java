@@ -11,7 +11,6 @@ import HIEU.demo.model.Student;
 import HIEU.demo.repository.ImageRepository;
 import HIEU.demo.repository.ProjectRepository;
 import HIEU.demo.repository.StudentRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -95,4 +94,18 @@ public class ProjectService {
                 .build();
     }
 
+
+    public void deleteProject(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new AppException("Project not found"));
+
+        // Xóa ảnh trước khi xóa Project
+        imageService.deleteImagesByProject(project);
+
+        // Xóa Project nhưng giữ nguyên Student
+        for (Student student : project.getStudents()) {
+            student.getProjectList().remove(project);
+        }
+        projectRepository.delete(project);
+    }
 }
