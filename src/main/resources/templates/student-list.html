@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon"
-          href="https://inkythuatso.com/uploads/thumbnails/800/2021/12/logo-dai-hoc-ha-noi-inkythuatso-22-13-54-01.jpg"
-          type="image/x-icon">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="container mt-4">
-<div class="card shadow">
+<body >
+<div  class="card shadow container mt-4" layout:fragment="content">
     <div class="card-body">
         <form th:action="@{/students}" method="get" class="mb-3">
             <input type="text" name="keyword" placeholder="Enter student ID..."
@@ -92,33 +89,32 @@
             <a href="/projects" class="btn btn-secondary">Back</a>
         </div>
     </div>
-</div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".delete-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                let form = this.closest("form");
-                let studentId = this.getAttribute("data-id");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".delete-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    let form = this.closest("form");
+                    let studentId = this.getAttribute("data-id");
 
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "Deleting a student cannot be undone!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Delete",
-                    cancelButtonText: "Cancel"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Deleting a student cannot be undone!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Delete",
+                        cancelButtonText: "Cancel"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
         });
-    });
-</script>
-
+    </script>
+</div>
 </body>
 
 </html>

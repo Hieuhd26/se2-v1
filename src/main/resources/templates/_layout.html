@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon"
+          href="https://inkythuatso.com/uploads/thumbnails/800/2021/12/logo-dai-hoc-ha-noi-inkythuatso-22-13-54-01.jpg"
+          type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="container mt-4">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav d-flex justify-content-center gap-3">
+                <li class="nav-item">
+                    <a sec:authorize="hasRole('ADMIN')" class="btn btn-dark btn-sm d-flex justify-content-center align-items-center gap-2"
+                       href="/excel/upload">
+                        <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="#ffffff"
+                                  d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/>
+                        </svg>
+                        Up Student
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasRole('ADMIN')" class="btn btn-success btn-sm d-flex justify-content-center align-items-center gap-2"
+                       href="/projects/add">
+                        <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="#ffffff"
+                                  d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/>
+                        </svg>
+                        Add Project
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasRole('ADMIN')" class="btn btn-info btn-sm d-flex justify-content-center align-items-center gap-2"
+                       href="/students">
+                        <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                            <path fill="#ffffff"
+                                  d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192l42.7 0c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0L21.3 320C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7l42.7 0C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3l-213.3 0zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352l117.3 0C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7l-330.7 0c-14.7 0-26.7-11.9-26.7-26.7z"/>
+                        </svg>
+                        List Student
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a  sec:authorize="hasRole('ADMIN')" class="btn btn-danger btn-sm d-flex justify-content-center align-items-center gap-2"
+                        href="/logout">
+                        <svg width="15px" height="15px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9-18.7 0-33.9-15.2-33.9-33.9V320H192c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32h128V129.9c0-18.7 15.2-33.9 33.9-33.9 9 0 17.6 3.6 24 9.9z"/>
+                        </svg>
+                        Logout
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="isAnonymous()" class="btn btn-primary btn-sm d-flex justify-content-center align-items-center gap-2"
+                       href="/login">
+                        <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="#ffffff"
+                                  d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                        </svg>
+                        Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div layout:fragment="content">
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

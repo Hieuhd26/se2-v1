@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Upload Student Excel</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="icon" href="https://inkythuatso.com/uploads/thumbnails/800/2021/12/logo-dai-hoc-ha-noi-inkythuatso-22-13-54-01.jpg" type="image/x-icon">
 </head>
-<body class="bg-light">
-
-<div class="container mt-5">
+<body>
+<div class="container mt-4" layout:fragment="content">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow-lg">
@@ -32,6 +31,5 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
